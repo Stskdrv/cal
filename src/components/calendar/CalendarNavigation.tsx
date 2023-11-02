@@ -1,9 +1,10 @@
 import { StyledIcon, StyledWeekNavigation } from "./calendar.style";
 import backIcon from '../../assets/icons/back_nav.png';
 import forvardIcon from '../../assets/icons/front_nav.png';
+import { memo } from "react";
 
 
-const CalendarNavigation = ({handleWeekChange}: {handleWeekChange: (direction: 'next' | 'prev') => void}) => {
+const CalendarNavigation = memo(({handleWeekChange}: {handleWeekChange: (direction: 'next' | 'prev') => void}) => {
     return (
         <StyledWeekNavigation>
             <StyledIcon
@@ -19,6 +20,6 @@ const CalendarNavigation = ({handleWeekChange}: {handleWeekChange: (direction: '
             />
         </StyledWeekNavigation>
     )
-};
+});
 
 export default CalendarNavigation;

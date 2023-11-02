@@ -1,4 +1,3 @@
-import { v4 } from "uuid";
 import { DAYS, HOUR_CELL_HEIGHT } from "../../constants";
 import { addDateBy, calcPosition, checkDates, createNumberArray } from "../../utils";
 import { StyledCalenarBody, StyledColGrid, StyledDayCell, StyledEvent, StyledHourCell, StyledRowGrid } from "./calendar.style";
@@ -11,13 +10,13 @@ const CalendarBody = ({mondayDate,sessions } : {mondayDate: Date, sessions: Sess
         <StyledColGrid first={'100px'} cols={1}>
           <StyledRowGrid rows={24}>
             {createNumberArray(24).map((hour: number) => (
-              <StyledHourCell key={v4()}>{hour}</StyledHourCell>
+              <StyledHourCell key={hour}>{hour}</StyledHourCell>
             ))}
           </StyledRowGrid>
           <StyledColGrid cols={7}>
             {DAYS.map((day, i) => (
               <StyledDayCell
-                key={v4()}
+                key={day}
                 istoday={String(checkDates(
                   new Date(),
                   addDateBy(mondayDate, i),
@@ -27,7 +26,7 @@ const CalendarBody = ({mondayDate,sessions } : {mondayDate: Date, sessions: Sess
                   const sessionDate = new Date(session.time);
                   return checkDates(addDateBy(mondayDate, i), sessionDate) &&
                     <StyledEvent
-                      key={v4()}
+                      key={session.id}
                       fromtop={
                         calcPosition(sessionDate)
                       }

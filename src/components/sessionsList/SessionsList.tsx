@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import filterIcon from '../../assets/filter.png';
 import {
     StyledCoachImg,
@@ -23,19 +23,17 @@ const SessionsList = ({ sessions, loadingState }: Props) => {
 
     const [filterValue, setFilterValue] = useState<string>('');
 
-    const handleInputchange = (query: string) => {
+    const handleInputChange = (query: string) => {
         setFilterValue(query);
     };
 
-    const filteredSessions = sessions.filter((session: SessionType) => {
+    const filteredSessions = useMemo(() => {
         const filterQuery = filterValue.toLowerCase();
-        return (
-            session.activity?.name?.toLowerCase().includes(filterQuery) ||
-            session.location?.toLowerCase().includes(filterQuery) ||
-            session.coach?.name?.toLowerCase().includes(filterQuery) ||
-            session.date?.toLowerCase().includes(filterQuery)
-        );
-    });
+        return sessions.filter((session: SessionType) => {
+            const sessionData = '' + session.activity?.name + session.location + session.coach?.name + session.date;
+            return sessionData?.toLowerCase().includes(filterQuery);
+        });
+    }, [sessions, filterValue]);
 
 
     return (
@@ -47,7 +45,7 @@ const SessionsList = ({ sessions, loadingState }: Props) => {
                     type='text'
                     placeholder="Filter Sessions"
                     value={filterValue}
-                    onChange={(e) => handleInputchange(e.target.value)}
+                    onChange={(e) => handleInputChange(e.target.value)}
                 />
             </StyledInputWrapper>
 
@@ -62,7 +60,7 @@ const SessionsList = ({ sessions, loadingState }: Props) => {
                                 <p>Duration: {session.duration * 60} min</p>
                                 <p>Location: {session.location}</p>
                                 <p>Coach: {session.coach?.name}</p>
-                                {session.coach?.photo && <StyledCoachImg src={session.coach?.photo} alt="logo" />}
+                                {session.coach?.photo && <StyledCoachImg src={session.coach?.photo} alt="photo" />}
                                 {session.activity?.logo && <StyledSessionLogo src={session.activity?.logo} alt="logo" />}
                             </div>
                         </StyledSessionItem>
